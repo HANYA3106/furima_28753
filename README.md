@@ -25,16 +25,16 @@ Things you may want to cover:
 
 # usersテーブル
 
-| Column           | Type       | Option                                  |
-| ---------------- | ---------- | --------------------------------------- |
-| nickname         | string     | null: false                             |
-| email            | string     | null: false                             |
-| password         | string     | null: false,  unique: true, index: true |
-| first_name       | string     | null: false                             |
-| family_name      | string     | null: false                             |
-| first_name_kana  | string     | null: false                             |
-| family_name_kana | string     | null: false                             |
-| birth_day        | date       | null: false                             |
+| Column           | Type   | Option                                |
+| ---------------- | ------ | ------------------------------------- |
+| nickname         | string | null: false                           |
+| email            | string | null: false, unique:true, index: true |
+| password         | string | null: false                           |
+| first_name       | string | null: false                           |
+| family_name      | string | null: false                           |
+| first_name_kana  | string | null: false                           |
+| family_name_kana | string | null: false                           |
+| birth_day        | date   | null: false                           |
 
 has_many :items, dependent::destroy
 has_many :comments, dependent::destroy
@@ -49,7 +49,7 @@ has_many :item_purchases
 | house_number      | string     | null: false                    |
 | building_name     | string     |                                |
 | phone_number      | string     | unique: true                   |
-| item_purchases    | references | null: false, foreign_key: true |
+| item_purchase     | references | null: false, foreign_key: true |
 
 belongs_to_active_hash :prefecture
 belongs_to :item_purchase 
@@ -79,7 +79,6 @@ belongs_to_active_hash :brand
 belongs_to :item_purchases
 belongs_to :user
 has_many :comments
-has_one :address
 
 
 # commentテーブル
@@ -95,8 +94,9 @@ belongs_to :item
 # item_purchases テーブル
 | Column  | Type    | Option                         |
 | ------- | ------- | ------------------------------ |
-| user_id | integer | null: false                    |
+| user_id | integer | null: false, foreign_key: true |
 | item_id | integer | null: false, foreign_key: true |
 
 belongs_to :user
 belongs_to :item
+has_one :address
