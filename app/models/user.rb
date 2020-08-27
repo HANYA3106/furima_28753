@@ -16,4 +16,6 @@ class User < ApplicationRecord
     validates :family_name_kana, format: { with: PASSWORD_kana }
     validates :birth_date
   end
+
+  # has_many :items, dependent::destroy
 end
