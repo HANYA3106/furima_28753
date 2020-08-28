@@ -17,5 +17,5 @@ class User < ApplicationRecord
     validates :birth_date
   end
 
-  # has_many :items, dependent::destroy
+  has_many :items, dependent: :destroy
 end
