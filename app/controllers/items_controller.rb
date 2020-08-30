@@ -24,17 +24,21 @@ class ItemsController < ApplicationController
 
   def update
     item = Item.find(params[:id])
-    item.update(item_params)
-    redirect_to item_path, method: :get
+    if  item.valid?
+        item.update(item_params)
+        redirect_to item_path, method: :get
+    else
+      render 'edit'
+    end
   end
   
   def show
   end
 
   def destroy
-    # item = Item.find(params[:id])
-    # item.destroy
-    # redirect_to root_path, method: :get
+    item = Item.find(params[:id])
+    item.destroy
+    redirect_to root_path, method: :get
   end
 
   private
