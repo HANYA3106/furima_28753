@@ -23,8 +23,8 @@ class ItemsController < ApplicationController
   end
 
   def update
-    item = Item.find(params[:id])
-    item.update(item_params)
+    # item = Item.find(params[:id])
+    # item.update(item_params)
     # redirect_to item_path, method: :get
   end
   
@@ -32,8 +32,8 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    item = Item.find(params[:id])
-    item.destroy
+    # item = Item.find(params[:id])
+    # item.destroy
     # redirect_to root_path, method: :get
   end
 
