@@ -3,7 +3,7 @@ class Item < ApplicationRecord
   belongs_to :user
 
   has_one_attached :image
-  has_one :item_purchases
+  has_one :item_purchase
   belongs_to_active_hash :item_condition
   belongs_to_active_hash :potage_payer
   belongs_to_active_hash :prefecture
