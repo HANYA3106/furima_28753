@@ -9,12 +9,11 @@ const pay = () => {
     const formData = new FormData(formResult);
 
     const card = {
-      number: formData.get("number"), //name属性がnumberになっているかどうか
+      number: formData.get("number"), 
       exp_month: formData.get("exp_month"),
       exp_year: `20${formData.get("exp_year")}`,
       cvc: formData.get("cvc"),
     };
-    console.log(card) // number: null, ..., cvc: null
 
     Payjp.createToken(card, (status, response) => {
       if (status === 200) {
@@ -31,6 +30,7 @@ const pay = () => {
         document.getElementById("charge-form").submit();
         document.getElementById("charge-form").reset();
       } else {
+        alert("カード情報が正しくありません。")；
       }
     });
   });

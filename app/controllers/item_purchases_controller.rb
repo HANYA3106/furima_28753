@@ -40,21 +40,21 @@ class ItemPurchasesController < ApplicationController
 
   def move_to_devise
     unless user_signed_in?
-      render template: "devise/sessions/new"
+      redirect_to new_user_session_path
     end
   end
 
   def move_to_root_path
     item = Item.find(params[:item_id])
     if current_user.id  == item.user_id
-      redirect_to "/"
+      redirect_to root_path
     end
   end
 
   def move_to_top
     item = Item.find(params[:item_id])
     if item.item_purchase != nil
-      redirect_to "/"
+      redirect_to root_path
     end
   end
 end
