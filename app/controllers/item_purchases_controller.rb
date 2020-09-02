@@ -1,4 +1,7 @@
 class ItemPurchasesController < ApplicationController
+  before_action :move_to_devise
+  before_action :move_to_root_path
+  before_action :move_to_top
 
   def index
     @item = Item.find(params[:item_id])
@@ -8,6 +11,7 @@ class ItemPurchasesController < ApplicationController
   def create
     @purchase = Purchase.new(purchase_params)
     if @purchase.valid?
+      pay_item
       @purchase.save
       redirect_to root_path
     else
@@ -17,13 +21,40 @@ class ItemPurchasesController < ApplicationController
 
   private
   def purchase_params
-    params.require(:purchase).permit(:post_code, :prefecture_id, :city, :house_number, :building_name).merge(item_id: item.id)
+    params.require(:purchase).permit(:post_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(item_id: params[:item_id]).merge(user_id: current_user.id)
   end
 
+  def item_purchases_params
+    params.permit(:token)
+  end
+
+  def  pay_item
+    @item = Item.find(params[:item_id])
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Charge.create(
+      amount: @item.price,
+      card: item_purchases_params[:token],
+      currency:'jpy'
+    )
+  end
+
+  def move_to_devise
+    unless user_signed_in?
+      render template: "devise/sessions/new"
+    end
+  end
+
+  def move_to_root_path
+    item = Item.find(params[:item_id])
+    if current_user.id  == item.user_id
+      redirect_to "/"
+    end
+  end
+
+  def move_to_top
+    item = Item.find(params[:item_id])
+    if item.item_purchase != nil
+      redirect_to "/"
+    end
+  end
 end
-# ItemPurchasesコントローラのindexアクションにどんなparamsが送られてきているか確認する
-# （現在params[:id]は送られてきていないので、params[:id]は使えない）
-
-# rails sをしているターミナルを見る
-# binding.pryをしてみる
-
