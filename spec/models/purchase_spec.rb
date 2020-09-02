@@ -44,6 +44,11 @@ RSpec.describe Purchase, type: :model do
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include("Phone number is invalid.")
     end
+    it 'phone_numberが11桁以上だと登録出来ない' do
+      @purchase.phone_number = '012345678901'
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include("Phone number is invalid.")
+    end
 
   end
 end
