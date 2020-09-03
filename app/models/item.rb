@@ -13,7 +13,7 @@ class Item < ApplicationRecord
   PASSWORD_num = /\A[0-9]+\z/.freeze
 
   with_options presence: true do
-    validates :image
+    validates :image, unless: :was_attached? 
     validates :name
     validates :price, format: { with: PASSWORD_num }, inclusion: { in: (300..9_999_999) }
     validates :introduction
@@ -29,4 +29,8 @@ class Item < ApplicationRecord
   validates :prefecture_id, numericality: { other_then: 1 }
   validates :preparation_day_id, numericality: { other_then: 1 }
   validates :category_id, numericality: { other_then: 1 }
+end
+
+def was_attached?
+  self.image.attached?
 end
