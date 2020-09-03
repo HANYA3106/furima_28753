@@ -13,6 +13,7 @@ class Item < ApplicationRecord
   PASSWORD_num = /\A[0-9]+\z/.freeze
 
   with_options presence: true do
+    validates :image
     validates :name
     validates :price, format: { with: PASSWORD_num }, inclusion: { in: (300..9_999_999) }
     validates :introduction
