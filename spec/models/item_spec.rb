@@ -29,45 +29,42 @@ describe Item do
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
       it 'item_condition_idが空だと出品できない' do
-        @item.item_condition_id = ""
+        @item.item_condition_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Item condition can't be blank")
       end
       it 'potage_payer_idが空だと出品できない' do
-        @item.potage_payer_id = ""
+        @item.potage_payer_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Potage payer can't be blank")
       end
       it 'prefecture_idが空だと出品できない' do
-        @item.prefecture_id = ""
+        @item.prefecture_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
       it 'preparation_day_idが空だと出品できない' do
-        @item.preparation_day_id = ""
+        @item.preparation_day_id = ''
         @item.valid?
         expect(@item.errors.full_messages).to include("Preparation day can't be blank")
       end
       it 'priceが空だと出品できない' do
-        @item.price = ""
+        @item.price = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is invalid")
+        expect(@item.errors.full_messages).to include('Price is invalid')
       end
       it 'priceが、¥300~¥9,999,999の間でないと出品できない' do
-        @item.price = 10000000
+        @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not included in the list")
+        expect(@item.errors.full_messages).to include('Price is not included in the list')
       end
       it 'priceは半角数字でないと出品できない' do
-        @item.price = "５７５"
+        @item.price = '５７５'
         @item.valid?
-        expect(@item.errors.full_messages).to include("Price is not included in the list")
+        expect(@item.errors.full_messages).to include('Price is not included in the list')
       end
       it '' do
-        
       end
-
     end
   end
-
 end

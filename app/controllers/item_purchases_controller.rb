@@ -20,6 +20,7 @@ class ItemPurchasesController < ApplicationController
   end
 
   private
+
   def purchase_params
     params.require(:purchase).permit(:post_code, :prefecture_id, :city, :house_number, :building_name, :phone_number).merge(item_id: params[:item_id]).merge(user_id: current_user.id)
   end
@@ -28,33 +29,27 @@ class ItemPurchasesController < ApplicationController
     params.permit(:token)
   end
 
-  def  pay_item
+  def pay_item
     @item = Item.find(params[:item_id])
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @item.price,
       card: item_purchases_params[:token],
-      currency:'jpy'
+      currency: 'jpy'
     )
   end
 
   def move_to_devise
-    unless user_signed_in?
-      redirect_to new_user_session_path
-    end
+    redirect_to new_user_session_path unless user_signed_in?
   end
 
   def move_to_root_path
     item = Item.find(params[:item_id])
-    if current_user.id  == item.user_id
-      redirect_to root_path
-    end
+    redirect_to root_path if current_user.id == item.user_id
   end
 
   def move_to_top
     item = Item.find(params[:item_id])
-    if item.item_purchase != nil
-      redirect_to root_path
-    end
+    redirect_to root_path unless item.item_purchase.nil?
   end
 end

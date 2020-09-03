@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-        :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable
 
   PASSWORD_ja = /\A[ぁ-んァ-ン一-龥]+\z/.freeze
   PASSWORD_kana = /\A[ァ-ヶー－]+\z/.freeze

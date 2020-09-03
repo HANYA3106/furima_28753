@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :item do
     name               { Faker::Movies::StarWars.droid }
-    price              { Faker::Number.between(from: 300, to: 9999999) }
+    price              { Faker::Number.between(from: 300, to: 9_999_999) }
     introduction       { Faker::Movies::StarWars.wookiee_sentence }
     item_condition_id  { 2 }
     potage_payer_id    { 2 }
