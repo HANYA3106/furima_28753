@@ -31,6 +31,7 @@ const pay = () => {
         document.getElementById("charge-form").reset();
       } else {
         alert("カード情報が正しくありません。");
+        
       }
     });
   });
