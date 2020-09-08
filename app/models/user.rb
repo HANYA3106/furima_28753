@@ -18,4 +18,5 @@ class User < ApplicationRecord
   end
   has_one :item_purchase
   has_many :items, dependent: :destroy
+  has_many :comments
 end
