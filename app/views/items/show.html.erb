@@ -18,6 +18,7 @@
     </div>
 
     <%# ログインしているユーザと出品しているユーザが同一人物である時、商品の編集と削除を表示にしましょう%>
+    <%# <div class="items"> %>
     <% if user_signed_in? && current_user.id == @item.user_id %>
       <%= link_to '商品の編集', edit_item_path, method: :get, class: "item-red-btn" %>
       <p class='or-text'>or</p>
@@ -27,6 +28,7 @@
       <%= link_to '購入画面に進む',  item_item_purchases_path(@item.id), method: :get, class:"item-red-btn"%>
       <%# //商品が売れていない場合はこちらを表示しましょう %>
     <% end %>
+    <%# </div> %>
     <%# // ログインしているユーザと出品しているユーザが同一人物である時、商品の編集と削除を表示にしましょう %>
 
     <div class="item-explain-box">
@@ -74,26 +76,46 @@
   <%# /商品の概要 %>
 
   <div class="comment-box">
-    <form>
-      <textarea class="comment-text"></textarea>
-      <p class="comment-warn">
-        相手のことを考え丁寧なコメントを心がけましょう。
-        <br>
-        不快な言葉遣いなどは利用制限や退会処分となることがあります。
-      </p>
-      <button type="submit" class="comment-btn">
-        <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
-        <span>コメントする<span>
-      </button>
-    </form>
+    <% if current_user %>
+      <%= form_with(model: [@item, @comment],local: true) do |form| %>
+      <%# <%= form. %>
+        <%= form.text_area :text, class: "comment-text" %>
+        <p class="comment-warn">
+          相手のことを考え丁寧なコメントを心がけましょう。
+          <br>
+          不快な言葉遣いなどは利用制限や退会処分となることがあります。
+        </p>
+        <div class= "comment-btn">
+          <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
+          <%= form.submit "コメントする", class: "comment-form"%>
+        </div>
+      <% end %>
+    <% else %>
+      <strong><p>※※※ コメントの投稿には新規登録/ログインが必要です ※※※</p>
+      </strong>
+    <% end %>
+    <div class="comment-icon">
+      <i class="fas fa-comments"></i>
+        コメント一覧
+    </div>
+    <div class="comments" id='comments'>
+        <% @comments.reverse_each do |comment| %>
+          <p>
+            <strong class="comment-user"><%= comment.user.nickname %><span>：</span></strong>
+            <%= comment.text %>
+          </p>
+        <% end %>
+    </div>
   </div>
   <div class="links">
-    <a href="#" class="change-item-btn">
-      ＜ 前の商品
-    </a>
-    <a href="#" class="change-item-btn">
-      後ろの商品 ＞
-    </a>
+  <% if @item.next.present? %>
+  <%= link_to "＜ 前の商品", item_path(@item.next),method: :get, class: "change-item-btn" %>
+  <% end %>
+  <% if @item.previous.present? %>
+  <%= link_to "後ろの商品 >", item_path(@item.previous), method: :get, class: "change-item-btn" %>
+  <% end %>
+    <%# <%= link_to '＜ 前の商品', :back, {class: "change-item-btn"} %>
+    <%# <%= link_to '後ろの商品 >', :back, {class: "change-item-btn"} %> 
   </div>
   <a href="#" class='another-item'><%= "商品のカテゴリー名" %>をもっと見る</a>
 </div>
